@@ -265,7 +265,7 @@ function Inspector:putTable(t)
         count = count + 1
       end
 
-      if type(mt) == 'table' then
+      if type(mt) == 'table' and self.showmts then
         if count > 0 then self:puts(',') end
         self:tabify()
         self:puts('<metatable> = ')
@@ -287,7 +287,7 @@ function Inspector:putValue(v)
   local tv = type(v)
 
   if tv == 'string' then
-    self:puts(smartQuote(escape(v)))
+	 self:puts(smartQuote(escape(v)))
   elseif tv == 'number' or tv == 'boolean' or tv == 'nil' or
          tv == 'cdata' or tv == 'ctype' then
     self:puts(tostring(v))
@@ -308,6 +308,7 @@ function inspect.inspect(root, options)
   local indent  = options.indent  or '  '
   local prefix  = options.prefix  or ''
   local process = options.process
+  local showmts = options.showmts or true
 
   if process then
     root = processRecursive(process, root, {}, {})
@@ -321,7 +322,8 @@ function inspect.inspect(root, options)
     maxIds           = {},
     newline          = newline,
     indent           = indent,
-    prefix           = prefix,
+	prefix           = prefix,
+	showmts          = showmts,
     tableAppearances = countTableAppearances(root)
   }, Inspector_mt)
 
