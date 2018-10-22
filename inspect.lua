@@ -307,7 +307,7 @@ function inspect.inspect(root, options)
   local newline = options.newline or '\n'
   local indent  = options.indent  or '  '
   local process = options.process
-  local showmts = options.showmts or true
+  local showmts = options.showmts == nil or options.showmts
 
   if process then
     root = processRecursive(process, root, {}, {})
